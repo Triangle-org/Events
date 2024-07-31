@@ -1,0 +1,37 @@
+{
+  "name": "triangle/events",
+  "description": "Triangle Events Component",
+  "type": "library",
+  "keywords": [
+    "localzet",
+    "Triangle",
+    "Events"
+  ],
+  "license": "AGPL-3.0-or-later",
+  "authors": [
+    {
+      "role": "Developer",
+      "name": "Ivan Zorin",
+      "email": "creator@localzet.com",
+      "homepage": "https://github.com/localzet"
+    }
+  ],
+  "support": {
+    "email": "support@localzet.com",
+    "source": "https://github.com/Triangle-org/View"
+  },
+  "autoload": {
+    "psr-4": {
+      "Triangle\\": "",
+      "Triangle\\Events\\": "src",
+      "support\\": "src/Support/",
+      "Support\\": "src/Support/"
+    }
+  },
+  "require": {
+    "php": ">=8.0",
+    "triangle/engine": ">=6.3"
+  },
+  "suggest": {
+  }
+}
