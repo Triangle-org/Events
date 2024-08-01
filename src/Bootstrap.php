@@ -29,7 +29,7 @@ use localzet\Server;
 use support\Container;
 use support\Events;
 use support\Log;
-use Triangle\Engine\Interface\BootstrapInterface;
+use Triangle\Engine\BootstrapInterface;
 
 class Bootstrap implements BootstrapInterface
 {
