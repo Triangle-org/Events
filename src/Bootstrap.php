@@ -26,10 +26,11 @@
 namespace Triangle\Events;
 
 use localzet\Server;
+use RuntimeException;
 use support\Container;
 use support\Events;
-use support\Log;
 use Triangle\Engine\BootstrapInterface;
+use Triangle\Engine\Plugin;
 
 class Bootstrap implements BootstrapInterface
 {
@@ -39,63 +40,36 @@ class Bootstrap implements BootstrapInterface
             return;
         }
 
-        $rawEvents = config('event', []);
+        $config = config();
 
-        $plugins = config('plugin', []);
-        foreach ($plugins as $firm => $projects) {
-            foreach ($projects as $name => $project) {
-                if (is_array($project) && !empty($project['event'])) {
-                    $rawEvents += $project['event'];
-                }
-            }
-            if (!empty($projects['event'])) {
-                $rawEvents += $projects['event'];
-            }
-        }
+        self::load($config['event'] ?? []);
 
-        self::load($rawEvents);
+        Plugin::app_reduce(function ($plugin, $config) {
+            self::load($config['event'] ?? []);
+        });
+
+        Plugin::plugin_reduce(function ($vendor, $plugins, $plugin, $config) {
+            self::load($config['event'] ?? []);
+        });
     }
 
     public static function load(array $events): void
     {
-        $allEvents = [];
-        foreach ($events as $eventName => $callbacks) {
-            $callbacks = self::convertCallable($callbacks);
-            if (!is_callable($callbacks) && !is_array($callbacks)) {
-                self::log("Событие: $eventName => " . var_export($callbacks, true) . " не вызываемо\n");
-                continue;
+        foreach ($events as $event => $callbacks) {
+            if (!is_array($callbacks)) {
+                throw new RuntimeException('Некорректная конфигурация событий');
             }
 
-            if (is_callable($callbacks)) {
-                $allEvents[$eventName][] = [$callbacks];
-                continue;
-            }
-
-            ksort($callbacks, SORT_NATURAL);
-            foreach ($callbacks as $id => $callback) {
+            foreach ($callbacks as $callback) {
                 $callback = self::convertCallable($callback);
-                if (!is_callable($callback)) {
-                    self::log("Событие: $eventName => " . var_export($callback, true) . " не вызываемо\n");
-                    continue;
-                }
-                $allEvents[$eventName][$id][] = $callback;
-            }
-        }
 
-        foreach ($allEvents as $name => $events) {
-            ksort($events, SORT_NATURAL);
-            foreach ($events as $callbacks) {
-                foreach ($callbacks as $callback) {
-                    Events::on($name, $callback);
+                if (is_callable($callbacks)) {
+                    Events::on($event, $callback);
+                } else {
+                    throw new RuntimeException("Событие: $event => " . var_export($callback, true) . " не вызываемо");
                 }
             }
         }
-    }
-
-    protected static function log($text): void
-    {
-        echo $text;
-        if (class_exists(Log::class)) Log::error($text);
     }
 
     /**
@@ -107,7 +81,7 @@ class Bootstrap implements BootstrapInterface
     {
         if (is_array($callbacks)) {
             $callback = array_values($callbacks);
-            if (isset($callback[1]) && is_string($callback[0]) && class_exists($callback[0])) {
+            if (is_array($callback) && is_string($callback[0])) {
                 return [Container::get($callback[0]), $callback[1]];
             }
         }
