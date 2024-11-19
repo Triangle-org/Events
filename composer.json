@@ -18,7 +18,7 @@
   ],
   "support": {
     "email": "support@localzet.com",
-    "source": "https://github.com/Triangle-org/View"
+    "source": "https://github.com/Triangle-org/Events"
   },
   "autoload": {
     "psr-4": {

@@ -60,11 +60,18 @@ class Events
      * Метод для регистрации обработчика события.
      *
      * @param string $event_name Имя события.
-     * @param callable $listener Обработчик события.
+     * @param callable|array $listener Обработчик события.
      * @return int ID обработчика события.
      */
-    public static function on(string $event_name, callable $listener): int
+    public static function on(string $event_name, callable|array $listener): int
     {
+        if (is_array($listener)) {
+            $callback = array_values($listener);
+            if (is_array($callback) && is_string($callback[0]) && class_exists($callback[0])) {
+                $listener = [new $callback[0](), $callback[1]];
+            }
+        }
+
         $is_prefix_name = str_ends_with($event_name, '*');
         if ($is_prefix_name) {
             static::$prefixEventMap[substr($event_name, 0, -1)][++static::$id] = $listener;
