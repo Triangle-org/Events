@@ -63,7 +63,7 @@ class Bootstrap implements BootstrapInterface
             foreach ($callbacks as $callback) {
                 $callback = self::convertCallable($callback);
 
-                if (is_callable($callbacks)) {
+                if (is_callable($callback)) {
                     Events::on($event, $callback);
                 } else {
                     throw new RuntimeException("Событие: $event => " . var_export($callback, true) . " не вызываемо");

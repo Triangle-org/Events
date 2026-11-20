@@ -24,6 +24,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Require Triangle Engine 9.x for the plugin configuration hooks used by event bootstrap.
+- Validate each converted event listener before registration.
+
 ### Planned
 - Event broadcasting
 - Async event processing
