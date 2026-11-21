@@ -32,7 +32,7 @@ Triangle Events registers application event listeners during Engine startup and 
 Install the package with Composer:
 
 ```sh
-composer require triangle/events
+composer require triangle/events:^2.0
 ```
 
 ## Register and dispatch events

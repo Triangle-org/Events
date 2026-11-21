@@ -10,7 +10,7 @@ Triangle Events подключает обработчики событий пр�
 Установите пакет через Composer:
 
 ```sh
-composer require triangle/events
+composer require triangle/events:^2.0
 ```
 
 ## Регистрация и отправка событий
