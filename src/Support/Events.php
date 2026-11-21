@@ -54,7 +54,7 @@ class Events
     /**
      * @var LoggerInterface
      */
-    protected static LoggerInterface $logger;
+    protected static ?LoggerInterface $logger = null;
 
     /**
      * Метод для регистрации обработчика события.
@@ -114,7 +114,7 @@ class Events
                 $response = $listener($data, $event_name);
             } catch (Throwable $e) {
                 $responses[] = $e;
-                if (!static::$logger && is_callable('\support\Log::error')) {
+                if (static::$logger === null && is_callable('\support\Log::error')) {
                     static::$logger = Log::channel();
                 }
                 static::$logger?->error($e);
