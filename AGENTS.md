@@ -26,9 +26,9 @@
 
 Опорные файлы: `README.md`, `.github/CONTRIBUTING.md`.
 
-`composer.json`: triangle/events; runtime "^8.1"; triangle/engine.
+`composer.json`: `triangle/events`; PHP `^8.1`; `triangle/engine ^9.0`; `composer test` runs `tests/engine_compatibility.php`.
 
-Именованных test/lint/build-скриптов в проверенных JSON-манифестах нет. Перед запуском выбери существующую команду из CI, конфигурации тестов или Makefile; не выдавай предполагаемую команду за проверенную.
+CI resolves latest and lowest supported dependency versions on PHP 8.1 and 8.5. It validates Composer metadata, runs PHP syntax checks, and executes the declared test script.
 
 Команды выше найдены в манифестах, а не проверены запуском. Перед выполнением прочитай их реализацию, нужные переменные и внешние зависимости. Не запускай нагрузочные, сетевые, deploy/migration-задачи или полный train как обычный smoke test.
 
