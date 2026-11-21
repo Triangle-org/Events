@@ -5,7 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0] - 2025-01-XX - LTS Release
+## [Unreleased]
+
+### Planned
+- Event broadcasting
+- Async event processing
+- Event priorities
+
+---
+
+## [2.0.0] - 2026-11-21
+
+### Breaking
+- Require Triangle Engine 9.x for the plugin configuration hooks used by event bootstrap; Engine 8 is no longer supported.
+
+### Changed
+- Validate each converted event listener before registration.
+
+---
+
+## [1.0.0] - 2024-08-01 - LTS Release
 
 ### Added
 - Initial LTS release
@@ -19,19 +38,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Improved event dispatch performance
 - Enhanced event listener registration
-
----
-
-## [2.0.0] - Unreleased
-
-### Breaking
-- Require Triangle Engine 9.x for the plugin configuration hooks used by event bootstrap; Engine 8 is no longer supported.
-
-### Changed
-- Validate each converted event listener before registration.
-
-### Planned
-- Event broadcasting
-- Async event processing
-- Event priorities
-
