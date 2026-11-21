@@ -41,4 +41,13 @@ if ($received !== $payload) {
     throw new RuntimeException('The configured event listener did not receive its payload.');
 }
 
+$failureEvent = 'triangle.events.listener.failure';
+Events::on($failureEvent, static function (): never {
+    throw new RuntimeException('Expected listener failure.');
+});
+$failures = Events::emit($failureEvent, null);
+if (count($failures) !== 1 || !($failures[0] instanceof RuntimeException)) {
+    throw new RuntimeException('Listener exceptions must be returned and logged without escaping emit().');
+}
+
 echo "TRIANGLE_EVENTS_ENGINE_COMPATIBILITY=ok\n";
